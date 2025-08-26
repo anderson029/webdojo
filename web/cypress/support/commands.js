@@ -3,7 +3,7 @@ Cypress.Commands.add('start', () =>{
     cy.visit('http://localhost:3000')
 })
 
-Cypress.Commands.add('submeterLogin', (email, password) =>{
+Cypress.Commands.add('submitLoginForm', (email, password) =>{
     cy.get('#email').type(email)
     cy.get('#password').type(password)
     cy.contains('button', 'Entrar').click()
