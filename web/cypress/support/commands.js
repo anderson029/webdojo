@@ -8,3 +8,10 @@ Cypress.Commands.add('submitLoginForm', (email, password) =>{
     cy.get('#password').type(password)
     cy.contains('button', 'Entrar').click()
 })
+
+Cypress.Commands.add('goTo', (buttonName, pageTitle) =>{
+  cy.contains(buttonName, pageTitle)
+      .should('be.visible')
+      .click()
+  cy.contains('h1', 'Consultoria')
+})
