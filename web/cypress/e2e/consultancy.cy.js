@@ -27,21 +27,37 @@ describe('Formulário de Consultoria',()=>{
     */
 
       //Segunda forma de converter o xpath, passando o label que elemento pai e buscando por texto que esta dentro do label elemento filho
-      cy.contains('label', 'Pessoa Física')
+    cy.contains('label', 'Pessoa Física')
       .find('input')
       .check()
       .should('be.checked')
       .should('exist')
 
-      cy.contains('label', 'Pessoa Jurídica')
+    cy.contains('label', 'Pessoa Jurídica')
       .find('input')
       .should('be.not.checked')
       
-
     cy.contains('label', 'CPF')
       .parent()
       .find('input')
       .type('73046653000')
       .should('have.value', '730.466.530-00')
+
+
+    const discoveryChamnnel = [
+      "Instagram",
+      "LinkedIn",
+      "Udemy",
+      "YouTube",
+      "Indicação de Amigo"
+    ]
+
+    discoveryChamnnel.forEach((channel)=>{
+      //span[text()="Instagram"]/../input
+      cy.contains('label', channel)
+      .find('input')
+      .check()
+      .should('be.checked')
+    })
   })
 })
