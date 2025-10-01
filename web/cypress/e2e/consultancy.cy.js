@@ -44,7 +44,7 @@ describe('Formulário de Consultoria',()=>{
       .should('have.value', '730.466.530-00')
 
 
-    const discoveryChamnnel = [
+    const discoveryChannel = [
       "Instagram",
       "LinkedIn",
       "Udemy",
@@ -52,12 +52,25 @@ describe('Formulário de Consultoria',()=>{
       "Indicação de Amigo"
     ]
 
-    discoveryChamnnel.forEach((channel)=>{
+    discoveryChannel.forEach((channel)=>{
       //span[text()="Instagram"]/../input
       cy.contains('label', channel)
       .find('input')
       .check()
       .should('be.checked')
     })
+
+    cy.get('input[type="file"]')
+      .selectFile('./cypress/fixtures/documentTest.pdf', {force: true})
+
+    cy.get('textarea[placeholder="Descreva mais detalhes sobre sua necessidade"]')
+      .type('Anderson teste da super area de texto')
+
+    cy.get('input[placeholder="Digite uma tecnologia e pressione Enter"]')
+      .type('Cypress{enter}')
+    
+    cy.contains('span', 'Cypress')
+      .should('exist');
+
   })
 })
