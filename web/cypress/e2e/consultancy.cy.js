@@ -60,17 +60,45 @@ describe('Formulário de Consultoria',()=>{
       .should('be.checked')
     })
 
+    //Upload de arquivo
     cy.get('input[type="file"]')
       .selectFile('./cypress/fixtures/documentTest.pdf', {force: true})
 
     cy.get('textarea[placeholder="Descreva mais detalhes sobre sua necessidade"]')
       .type('Anderson teste da super area de texto')
 
-    cy.get('input[placeholder="Digite uma tecnologia e pressione Enter"]')
-      .type('Cypress{enter}')
-    
-    cy.contains('span', 'Cypress')
-      .should('exist');
+    const techs = [
+      'Cypress',
+      'Selenium',
+      'Robot Framework',
+      'playwright'
+    ]
 
+    techs.forEach((techs)=>{
+      cy.get('input[placeholder="Digite uma tecnologia e pressione Enter"]')
+      .type(techs)
+      .type('{enter}')
+    
+      //Transformando xpath em código cypress xpath= //label[text()='Tecnologias']/..//span[text()='Cypress']
+      cy.contains('label', 'Tecnologias')
+        .parent()
+        .find('span', techs)
+        .should('exist');
+    })
+
+    //Aceitar termos de uso xpath= //span[text()= 'Li e aceito os']/..//input
+    cy.contains('label', 'termos de uso')
+    .find('input')
+    .check()
+
+    cy.contains('button', 'Enviar formulário')
+      .click()
+
+    cy.contains('h3', 'Sucesso')
+      .should('be.visible')
+      .should('have.text', 'Sucesso!')
+
+    cy.contains('Sua solicitação de consultoria foi enviada com sucesso! Em breve, nossa equipe entrará em contato através do email fornecido.')
+      .should('be.visible')
   })
 })

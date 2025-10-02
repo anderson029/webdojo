@@ -21,6 +21,8 @@ O **WebDojo** é um aplicativo exclusivo para os alunos do **Curso Ninja do Cypr
 ## 📖 Como Usar
 
 As instruções detalhadas de instalação e uso do **WebDojo** estão disponíveis dentro do **Curso Ninja do Cypress**.
+- Abra a pasta web do projeto e rode o comando **npm run dev** e abra após (porta **localhost:3000**)
+- Abra o cypress com o comando **npx cypress open**
 
 🔗 **Acesse o curso e seja Ninja da Automação em Cypress!** 👉 [ninjadocypress.com.br](https://ninjadocypress.com.br)
 
@@ -37,3 +39,4 @@ Este projeto é **exclusivo para alunos** do **Curso Ninja do Cypress**. 🚫 O 
 ------
 
 💙 Feito com dedicação e muito café por **Fernando Papito** e a equipe do **Curso Ninja do Cypress**. 🚀🔥
+
