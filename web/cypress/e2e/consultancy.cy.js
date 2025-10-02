@@ -101,4 +101,26 @@ describe('Formulário de Consultoria',()=>{
     cy.contains('Sua solicitação de consultoria foi enviada com sucesso! Em breve, nossa equipe entrará em contato através do email fornecido.')
       .should('be.visible')
   })
+
+  it.only('Deve verificar os campos obrigatórios', ()=>{
+    cy.start()
+    cy.submitLoginForm('papito@webdojo.com', 'katana123')
+    cy.goTo('Formulários', 'Consultoria')
+
+    cy.contains('button', 'Enviar formulário')
+      .click()
+
+    const requiredFields = [
+      'Digite nome e sobrenome',
+      'Informe um email válido',
+      'Você precisa aceitar os termos de uso'
+    ]
+
+    requiredFields.forEach((required)=>{
+      cy.contains('p', required)
+        .should('be.visible')
+        .and('have.class','text-red-400')
+        .and('have.css', 'color', 'rgb(248, 113, 113)')
+    })
+  }) 
 })
