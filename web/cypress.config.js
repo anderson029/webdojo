@@ -5,6 +5,6 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    defaultCommandTimeout: 10000 // Timeout implicito, Ajustando o tempo default do cypress para espera de elementos
+    //defaultCommandTimeout: 10000 // Timeout explícito, ajustando o tempo default do cypress para espera de elementos
   },
 });
