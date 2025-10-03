@@ -1,5 +1,5 @@
 describe('Formulário de Consultoria',()=>{
-  it('Deve solicitar a consultoria individual',()=>{
+  it.only('Deve solicitar a consultoria individual',()=>{
     cy.start()
     cy.submitLoginForm('papito@webdojo.com', 'katana123')
     cy.goTo('Formulários', 'Consultoria')
@@ -67,6 +67,7 @@ describe('Formulário de Consultoria',()=>{
     cy.get('textarea[placeholder="Descreva mais detalhes sobre sua necessidade"]')
       .type('Anderson teste da super area de texto')
 
+    // Adicionando as techs
     const techs = [
       'Cypress',
       'Selenium',
@@ -94,12 +95,22 @@ describe('Formulário de Consultoria',()=>{
     cy.contains('button', 'Enviar formulário')
       .click()
 
-    cy.contains('h3', 'Sucesso')
+     // Validando mensagem de sucesso do formulário com css selector 
+    cy.get('.modal')
+      .find('.modal-content')
+      .should('be.visible')
+      .should('have.text', 'Sua solicitação de consultoria foi enviada com sucesso! Em breve, nossa equipe entrará em contato através do email fornecido.')
+
+      //Validando mensagem de sucesso com contains (nao é uma boa pratica nesse caso pois verifica em toda a tela se contém o valor)
+      // cy.contains('Sua solicitação de consultoria foi enviada com sucesso! Em breve, nossa equipe entrará em contato através do email fornecido.')
+      //   .should('be.visible')
+
+    // CSS= div[class^='modal header']
+    cy.get("div[class^='modal-header']")
       .should('be.visible')
       .should('have.text', 'Sucesso!')
 
-    cy.contains('Sua solicitação de consultoria foi enviada com sucesso! Em breve, nossa equipe entrará em contato através do email fornecido.')
-      .should('be.visible')
+   
   })
 
   it('Deve verificar os campos obrigatórios', ()=>{
