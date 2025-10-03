@@ -95,9 +95,8 @@ describe('Formulário de Consultoria',()=>{
     cy.contains('button', 'Enviar formulário')
       .click()
 
-     // Validando mensagem de sucesso do formulário com css selector 
-    cy.get('.modal')
-      .find('.modal-content')
+     // Validando mensagem de sucesso do formulário com css selector= div[class^='modal-content']
+    cy.get('.modal-content')
       .should('be.visible')
       .should('have.text', 'Sua solicitação de consultoria foi enviada com sucesso! Em breve, nossa equipe entrará em contato através do email fornecido.')
 
@@ -106,11 +105,9 @@ describe('Formulário de Consultoria',()=>{
       //   .should('be.visible')
 
     // CSS= div[class^='modal header']
-    cy.get("div[class^='modal-header']")
+    cy.get('.modal-header')
       .should('be.visible')
       .should('have.text', 'Sucesso!')
-
-   
   })
 
   it('Deve verificar os campos obrigatórios', ()=>{
