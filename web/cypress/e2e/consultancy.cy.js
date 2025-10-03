@@ -102,7 +102,7 @@ describe('Formulário de Consultoria',()=>{
       .should('be.visible')
   })
 
-  it.only('Deve verificar os campos obrigatórios', ()=>{
+  it('Deve verificar os campos obrigatórios', ()=>{
     cy.start()
     cy.submitLoginForm('papito@webdojo.com', 'katana123')
     cy.goTo('Formulários', 'Consultoria')
@@ -110,17 +110,29 @@ describe('Formulário de Consultoria',()=>{
     cy.contains('button', 'Enviar formulário')
       .click()
 
-    const requiredFields = [
-      'Digite nome e sobrenome',
-      'Informe um email válido',
-      'Você precisa aceitar os termos de uso'
+    const fieldRequire = [
+      "Nome Completo",
+      "Email"
     ]
 
-    requiredFields.forEach((required)=>{
-      cy.contains('p', required)
-        .should('be.visible')
-        .and('have.class','text-red-400')
-        .and('have.css', 'color', 'rgb(248, 113, 113)')
+    fieldRequire.forEach((require)=>{
+      //xpath dos campos obrigatórios = //label[text()= 'Nome Completo *']/..//p[text()='Campo obrigatório']
+      cy.contains('label', require)
+      .parent()
+      .find('p')
+      .should('be.visible')
+      .should('have.text', 'Campo obrigatório')
+      .and('have.class','text-red-400')
+      .and('have.css', 'color', 'rgb(248, 113, 113)')
+
     })
-  }) 
+
+    cy.contains('label', 'termos de uso')
+      .parent()
+      .find('p')
+      .should('be.visible')
+      .should('have.text', 'Você precisa aceitar os termos de uso')
+      .and('have.class','text-red-400')
+      .and('have.css', 'color', 'rgb(248, 113, 113)')
+   }) 
 })
