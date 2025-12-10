@@ -24,6 +24,8 @@ As instruções detalhadas de instalação e uso do **WebDojo** estão disponív
 - Abra a pasta web do projeto e rode o comando **npm run dev** e abra após (porta **localhost:3000**)
 - Abra o cypress com o comando **npx cypress open**
 - **npm install cypress-real-events**, para simular mouse over.
+- **npx cypress run**, para rodar os testes de modo headless.
+- - **npx cypress run --headed**, para rodar os testes em operação assistida.
 
 🔗 **Acesse o curso e seja Ninja da Automação em Cypress!** 👉 [ninjadocypress.com.br](https://ninjadocypress.com.br)
 
