@@ -9,19 +9,43 @@ describe('Formulário de Consultoria',()=>{
     cy.goTo('Formulários', 'Consultoria')
   })
   it('Deve solicitar a consultoria individual',()=>{
-    cy.get('input[placeholder="Digite seu nome completo"]').type("Anderson de Oliveira")
-    cy.get('input[placeholder="Digite seu email"]').type("anderson@teste.com")
+    
+    const consultancyForm = {
+      name:'Anderson de Oliveira',
+      email:'anderson@teste.com',
+      phone:'11999991000',
+      consultancyType:'Individual',
+      personType:'cpf',
+      document:'73046653000',
+      discoveryChannel: [
+        "Instagram",
+        "LinkedIn",
+        "Udemy",
+        "YouTube",
+        "Indicação de Amigo"
+      ],
+      file:'./cypress/fixtures/documentTest.pdf',
+      description:'Anderson teste da super area de texto',
+      techs: [
+        'Cypress',
+        'Selenium',
+        'Robot Framework',
+        'playwright'
+      ],
+      term: true
+    }
+    cy.get('input[placeholder="Digite seu nome completo"]').type(consultancyForm.name)
+    cy.get('input[placeholder="Digite seu email"]').type(consultancyForm.email)
     cy.get('input[placeholder="(00) 00000-0000"]')
-      .type(11999991000)
+      .type(consultancyForm.phone)
       .should('have.value', '(11) 99999-1000')
-    cy.get('#consultancyType').select('In Company')
 
     /* Exemplo de conversão de xpath para código Cypress
      label[text()="Tipo de Consultoria"]/..//select   */
     cy.contains('label', 'Tipo de Consultoria')
       .parent()
       .find('select')
-      .select('Individual')
+      .select(consultancyForm.consultancyType)
 
     /* //span[text()='Pessoa Física']/..//input 
     Primeira forma de realizar a conversão do xpath para cypress encadeando passo a passo
@@ -30,34 +54,37 @@ describe('Formulário de Consultoria',()=>{
       .find('input')
       .check()
     */
-
-      //Segunda forma de converter o xpath, passando o label que elemento pai e buscando por texto que esta dentro do label elemento filho
-    cy.contains('label', 'Pessoa Física')
+    if (consultancyForm.personType ==='cpf') {
+      cy.contains('label', 'Pessoa Física')
       .find('input')
       .check()
       .should('be.checked')
       .should('exist')
 
-    cy.contains('label', 'Pessoa Jurídica')
+      cy.contains('label', 'Pessoa Jurídica')
+        .find('input')
+        .should('be.not.checked')
+    }
+
+    if (consultancyForm.personType ==='cnpj') {
+      cy.contains('label', 'Pessoa Jurídica')
       .find('input')
-      .should('be.not.checked')
-      
+      .check()
+      .should('be.checked')
+      .should('exist')
+
+      cy.contains('label', 'Pessoa Física')
+        .find('input')
+        .should('be.not.checked')
+    }
+      //Segunda forma de converter o xpath, passando o label que elemento pai e buscando por texto que esta dentro do label elemento filho
     cy.contains('label', 'CPF')
       .parent()
       .find('input')
-      .type('73046653000')
+      .type(consultancyForm.document)
       .should('have.value', '730.466.530-00')
 
-
-    const discoveryChannel = [
-      "Instagram",
-      "LinkedIn",
-      "Udemy",
-      "YouTube",
-      "Indicação de Amigo"
-    ]
-
-    discoveryChannel.forEach((channel)=>{
+    consultancyForm.discoveryChannel.forEach((channel)=>{
       //span[text()="Instagram"]/../input
       cy.contains('label', channel)
       .find('input')
@@ -67,35 +94,30 @@ describe('Formulário de Consultoria',()=>{
 
     //Upload de arquivo
     cy.get('input[type="file"]')
-      .selectFile('./cypress/fixtures/documentTest.pdf', {force: true})
+      .selectFile(consultancyForm.file, {force: true})
 
     cy.get('textarea[placeholder="Descreva mais detalhes sobre sua necessidade"]')
-      .type('Anderson teste da super area de texto')
+      .type(consultancyForm.description)
 
-    // Adicionando as techs
-    const techs = [
-      'Cypress',
-      'Selenium',
-      'Robot Framework',
-      'playwright'
-    ]
-
-    techs.forEach((techs)=>{
+    consultancyForm.techs.forEach((techs)=>{
       cy.get('input[placeholder="Digite uma tecnologia e pressione Enter"]')
       .type(techs)
       .type('{enter}')
     
-      //Transformando xpath em código cypress xpath= //label[text()='Tecnologias']/..//span[text()='Cypress']
+      //Transformando xpath em código cypress xpath= //label[text()='Tecnologias']/..//span[text()='Cypress'], verificando se a tech foi adicionada com sucesso
       cy.contains('label', 'Tecnologias')
         .parent()
         .find('span', techs)
         .should('exist');
     })
 
-    //Aceitar termos de uso xpath= //span[text()= 'Li e aceito os']/..//input
-    cy.contains('label', 'termos de uso')
-    .find('input')
-    .check()
+    if (consultancyForm.term === true ){
+      //Aceitar termos de uso xpath= //span[text()= 'Li e aceito os']/..//input
+      cy.contains('label', 'termos de uso')
+      .find('input')
+      .check()
+    }
+    
 
     cy.contains('button', 'Enviar formulário')
       .click()
@@ -113,6 +135,117 @@ describe('Formulário de Consultoria',()=>{
     cy.get('.modal-header')
       .should('be.visible')
       .should('have.text', 'Sucesso!')
+  })
+
+  it.only('Deve solicitar a consultoria In Company',()=>{
+  
+  const consultancyForm = {
+    name:'Anderson de Oliveira',
+    email:'anderson@teste.com',
+    phone:'11999991000',
+    consultancyType:'In Company',
+    personType:'cnpj',
+    document:'00000000000191',
+    discoveryChannel: [
+      "LinkedIn"
+    ],
+    file:'./cypress/fixtures/documentTest.pdf',
+    description:'Anderson teste da super area de texto',
+    techs: [
+      'Cypress',
+    ],
+    term: true
+  }
+  cy.get('input[placeholder="Digite seu nome completo"]').type(consultancyForm.name)
+  cy.get('input[placeholder="Digite seu email"]').type(consultancyForm.email)
+  cy.get('input[placeholder="(00) 00000-0000"]')
+    .type(consultancyForm.phone)
+    .should('have.value', '(11) 99999-1000')
+
+  /* Exemplo de conversão de xpath para código Cypress
+    label[text()="Tipo de Consultoria"]/..//select   */
+  cy.contains('label', 'Tipo de Consultoria')
+    .parent()
+    .find('select')
+    .select(consultancyForm.consultancyType)
+
+  /* //span[text()='Pessoa Física']/..//input 
+  Primeira forma de realizar a conversão do xpath para cypress encadeando passo a passo
+  cy.contains('span', 'Pessoa Física')
+    .parent()
+    .find('input')
+    .check()
+  */
+  if (consultancyForm.personType ==='cpf') {
+    cy.contains('label', 'Pessoa Física')
+    .find('input')
+    .check()
+    .should('be.checked')
+    .should('exist')
+
+    cy.contains('label', 'Pessoa Jurídica')
+      .find('input')
+      .should('be.not.checked')
+  }
+
+  if (consultancyForm.personType ==='cnpj') {
+    cy.contains('label', 'Pessoa Jurídica')
+    .find('input')
+    .check()
+    .should('be.checked')
+    .should('exist')
+
+    cy.contains('label', 'Pessoa Física')
+      .find('input')
+      .should('be.not.checked')
+  }
+  
+  cy.contains('label', 'CNPJ')
+    .parent()
+    .find('input')
+    .type(consultancyForm.document)
+    .should('have.value', '00.000.000/0001-91')
+
+  consultancyForm.discoveryChannel.forEach((channel)=>{
+    cy.contains('label', channel)
+    .find('input')
+    .check()
+    .should('be.checked')
+  })
+
+  //Upload de arquivo
+  cy.get('input[type="file"]')
+    .selectFile(consultancyForm.file, {force: true})
+
+  cy.get('textarea[placeholder="Descreva mais detalhes sobre sua necessidade"]')
+    .type(consultancyForm.description)
+
+  consultancyForm.techs.forEach((techs)=>{
+    cy.get('input[placeholder="Digite uma tecnologia e pressione Enter"]')
+    .type(techs)
+    .type('{enter}')
+  
+    cy.contains('label', 'Tecnologias')
+      .parent()
+      .find('span', techs)
+      .should('exist');
+  })
+
+  if (consultancyForm.term === true ){
+    cy.contains('label', 'termos de uso')
+    .find('input')
+    .check()
+  }
+
+  cy.contains('button', 'Enviar formulário')
+    .click()
+  cy.get('.modal-content', {timeout: 7000})
+    .should('be.visible')
+    .should('have.text', 'Sua solicitação de consultoria foi enviada com sucesso! Em breve, nossa equipe entrará em contato através do email fornecido.')
+
+  cy.get('.modal-header')
+    .should('be.visible')
+    .should('have.text', 'Sucesso!')
   })
 
   it('Deve verificar os campos obrigatórios', ()=>{
