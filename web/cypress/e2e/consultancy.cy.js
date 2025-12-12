@@ -5,8 +5,7 @@ describe('Formulário de Consultoria',()=>{
   })
 
   beforeEach(()=>{
-    cy.start()
-    cy.submitLoginForm('papito@webdojo.com', 'katana123')
+    cy.login()
     cy.goTo('Formulários', 'Consultoria')
   })
   it('Deve solicitar a consultoria individual',()=>{

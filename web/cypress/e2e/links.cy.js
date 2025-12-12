@@ -1,8 +1,7 @@
 describe('Links abrindo nova guia/janela', ()=> {
   // validando se o link esta indo para o lugar correto, link externo
   it('Validando o atributo do link do Instagram', ()=> {
-    cy.start()
-    cy.submitLoginForm('papito@webdojo.com', 'katana123')
+    cy.login()
 
     cy.get('[data-cy="instagram-link"]')
     .should('have.attr', 'href', 'https://www.instagram.com/qapapito')
