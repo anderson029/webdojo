@@ -1,0 +1,44 @@
+{
+  "personal": {
+    "name": "Anderson de Oliveira",
+    "email": "anderson@teste.com",
+    "phone": "11999991000",
+    "consultancyType": "Individual",
+    "personType": "cpf",
+    "document": "73046653000",
+    "discoveryChannel": [
+      "Instagram",
+      "LinkedIn",
+      "Udemy",
+      "YouTube",
+      "Indicação de Amigo"
+    ],
+    "file": "./cypress/fixtures/documentTest.pdf",
+    "description": "Anderson teste da super area de texto",
+    "techs": [
+      "Cypress",
+      "Selenium",
+      "Robot Framework",
+      "playwright"
+    ],
+    "term": true
+  },
+  
+  "company": {
+    "name": "Anderson de Oliveira",
+    "email": "anderson@teste.com",
+    "phone": "11999991000",
+    "consultancyType": "In Company",
+    "personType": "cnpj",
+    "document": "00000000000191",
+    "discoveryChannel": [
+      "LinkedIn"
+    ],
+    "file": "./cypress/fixtures/documentTest.pdf",
+    "description": "Anderson teste da super area de texto",
+    "techs": [
+      "Cypress"
+    ],
+    "term": true
+  }
+}

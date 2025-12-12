@@ -7,33 +7,17 @@ describe('Formulário de Consultoria',()=>{
   beforeEach(()=>{
     cy.login()
     cy.goTo('Formulários', 'Consultoria')
+    cy.fixture('consultancy').as('consultancyData') // criando um json de massa de dados e nomeando com as(alias)
   })
-  it('Deve solicitar a consultoria individual',()=>{
+
+  /*
+  Ao utilizar fixture fora do escopo que vai ser utilizado, precisa trocar a função de seta pois ela 
+  não consegue obter os valores do .this, então precisa mudar para função convencional do javascript(function) 
+  */
+  it('Deve solicitar a consultoria individual', function(){
     
-    const consultancyForm = {
-      name:'Anderson de Oliveira',
-      email:'anderson@teste.com',
-      phone:'11999991000',
-      consultancyType:'Individual',
-      personType:'cpf',
-      document:'73046653000',
-      discoveryChannel: [
-        "Instagram",
-        "LinkedIn",
-        "Udemy",
-        "YouTube",
-        "Indicação de Amigo"
-      ],
-      file:'./cypress/fixtures/documentTest.pdf',
-      description:'Anderson teste da super area de texto',
-      techs: [
-        'Cypress',
-        'Selenium',
-        'Robot Framework',
-        'playwright'
-      ],
-      term: true
-    }
+    const consultancyForm = this.consultancyData.personal
+
     cy.get('input[placeholder="Digite seu nome completo"]').type(consultancyForm.name)
     cy.get('input[placeholder="Digite seu email"]').type(consultancyForm.email)
     cy.get('input[placeholder="(00) 00000-0000"]')
@@ -137,25 +121,10 @@ describe('Formulário de Consultoria',()=>{
       .should('have.text', 'Sucesso!')
   })
 
-  it.only('Deve solicitar a consultoria In Company',()=>{
+  it('Deve solicitar a consultoria In Company',function(){
   
-  const consultancyForm = {
-    name:'Anderson de Oliveira',
-    email:'anderson@teste.com',
-    phone:'11999991000',
-    consultancyType:'In Company',
-    personType:'cnpj',
-    document:'00000000000191',
-    discoveryChannel: [
-      "LinkedIn"
-    ],
-    file:'./cypress/fixtures/documentTest.pdf',
-    description:'Anderson teste da super area de texto',
-    techs: [
-      'Cypress',
-    ],
-    term: true
-  }
+ const consultancyForm = this.consultancyData.company
+
   cy.get('input[placeholder="Digite seu nome completo"]').type(consultancyForm.name)
   cy.get('input[placeholder="Digite seu email"]').type(consultancyForm.email)
   cy.get('input[placeholder="(00) 00000-0000"]')
