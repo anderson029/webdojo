@@ -27,30 +27,22 @@ describe('Formulário de Consultoria', () => {
   it('Deve verificar os campos obrigatórios', () => {
     cy.submitConsultancyForm()
 
-    const fieldRequire = [
-      "Nome Completo",
-      "Email"
+    const requireField = [
+      { label: 'Nome Completo', message: 'Campo obrigatório' },
+      { label: 'Email', message: 'Campo obrigatório' },
+      { label: 'termos de uso', message: 'Você precisa aceitar os termos de uso' }
     ]
 
-    fieldRequire.forEach((require) => {
+    requireField.forEach(({label, message}) => {
       //xpath dos campos obrigatórios = //label[text()= 'Nome Completo *']/..//p[text()='Campo obrigatório']
-      cy.contains('label', require)
+      cy.contains('label', label)
         .parent()
         .find('p')
         .should('be.visible')
-        .should('have.text', 'Campo obrigatório')
+        .should('have.text', message)
         .and('have.class', 'text-red-400')
         .and('have.css', 'color', 'rgb(248, 113, 113)')
-
     })
-
-    cy.contains('label', 'termos de uso')
-      .parent()
-      .find('p')
-      .should('be.visible')
-      .should('have.text', 'Você precisa aceitar os termos de uso')
-      .and('have.class', 'text-red-400')
-      .and('have.css', 'color', 'rgb(248, 113, 113)')
   })
 
   afterEach(() => {
