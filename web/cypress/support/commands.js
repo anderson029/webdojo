@@ -1,4 +1,5 @@
 import 'cypress-real-events' //biblioteca para fazer a função do mouse houver(.realHover)
+import './actions/consultancy.actions'
 
 Cypress.Commands.add('start', () =>{
     cy.viewport(1440, 900)
