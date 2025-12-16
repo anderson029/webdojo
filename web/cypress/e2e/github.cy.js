@@ -1,6 +1,6 @@
-import { profileOne } from "../fixtures/perfilGithub.json"
+import perfilGitHub from "../fixtures/perfilGithub.json"
 
-const perfisArray = Object.values(require('../fixtures/perfilGithub.json'))// transformando em uma array
+const perfisArray = Object.values(perfilGitHub)// transformando em uma array
 
 describe('Gereciamento de perfis do gitHub', () => {
 
@@ -17,7 +17,7 @@ describe('Gereciamento de perfis do gitHub', () => {
       cy.contains('button', 'Adicionar Perfil').click()
     })
 
-    cy.contains('table tbody tr', profileOne.username)
+    cy.contains('table tbody tr', perfisArray[0].username)
       .should('be.visible')
       .as('trProfile')
 
@@ -31,30 +31,30 @@ describe('Gereciamento de perfis do gitHub', () => {
   })
 
   it('Deve poder remover um perfil da lista de gitHub', () => {
-    cy.get('#name').type(profileOne.name)
-    cy.get('#username').type(profileOne.username)
-    cy.get('#profile').type(profileOne.description)
+    cy.get('#name').type(perfisArray[0].name)
+    cy.get('#username').type(perfisArray[0].username)
+    cy.get('#profile').type(perfisArray[0].description)
 
     cy.contains('button', 'Adicionar Perfil').click()
 
-    cy.contains('table tbody tr', profileOne.username)
+    cy.contains('table tbody tr', perfisArray[0].username)
       .should('be.visible')
       .as('trProfile')
 
     cy.get('@trProfile').find('button[title="Remover perfil"]').click()
 
-    cy.contains('table tbody', profileOne.username)
+    cy.contains('table tbody', perfisArray[0].username)
       .should('not.exist')
   })
 
   it('Deve validar o link do github', () => {
-    cy.get('#name').type(profileOne.name)
-    cy.get('#username').type(profileOne.username)
-    cy.get('#profile').type(profileOne.description)
+    cy.get('#name').type(perfisArray[0].name)
+    cy.get('#username').type(perfisArray[0].username)
+    cy.get('#profile').type(perfisArray[0].description)
 
     cy.contains('button', 'Adicionar Perfil').click()
 
-    cy.contains('table tbody tr', profileOne.username)
+    cy.contains('table tbody tr', perfisArray[0].username)
       .should('be.visible')
       .as('trProfile')
 
@@ -63,7 +63,7 @@ describe('Gereciamento de perfis do gitHub', () => {
     // .click()
 
     cy.get('@trProfile').find('a')
-      .should('have.attr', 'href', 'https://github.com/' + profileOne.username)
+      .should('have.attr', 'href', 'https://github.com/' + perfisArray[0].username)
       .and('have.attr', 'target', '_blank') // como nao precisamos validar o github, aqui validamos somente se hyperlink esta funcionando.
   })
 })
