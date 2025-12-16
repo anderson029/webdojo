@@ -33,7 +33,7 @@ describe('Formulário de Consultoria', () => {
       { label: 'termos de uso', message: 'Você precisa aceitar os termos de uso' }
     ]
 
-    requireField.forEach(({label, message}) => {
+    requireField.forEach(({ label, message }) => {
       //xpath dos campos obrigatórios = //label[text()= 'Nome Completo *']/..//p[text()='Campo obrigatório']
       cy.contains('label', label)
         .parent()
