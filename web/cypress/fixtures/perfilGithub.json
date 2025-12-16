@@ -1,0 +1,12 @@
+{
+  "profileOne": {
+    "name": "Anderson Oliveira",
+    "username": "anderson029",
+    "description": "QA"
+  },
+  "profileTwo": {
+    "name": "Teste para excluir",
+    "username": "teste para excluir",
+    "description": "QA-teste"
+  }
+}
